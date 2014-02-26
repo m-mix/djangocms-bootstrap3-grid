@@ -9,7 +9,7 @@ Installation
 This plugin requires `django CMS` 2.4 or higher to be properly installed.
 Works with `django CMS` 3.0.beta3
 
-* Run ``djangocms-bootstrap3-grid``.
+* Run ``pip install https://github.com/m-mix/djangocms-bootstrap3-grid/archive/master.zip``.
 * Add ``'djangocms_bootstrap3'`` to your ``INSTALLED_APPS`` setting.
 * Run ``manage.py migrate djangocms_bootstrap3``.
 

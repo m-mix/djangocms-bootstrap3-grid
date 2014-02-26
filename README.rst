@@ -18,8 +18,11 @@ Configure your bootstrap grid system (if it need)
 -------------------
 
 DJANGOCMS_BOOTSTRAP3_CONFIG = {'COLUMNS': 12,
-               'ROW_TEMPLATES': (('djangocms_bootstrap3/row.html', _('Row')),
-                                 ('djangocms_bootstrap3/container_row.html', _('Container Row')),)
+               'ROW_TEMPLATES': (
+                    ('djangocms_bootstrap3/row.html', _('Row')),
+                    ('djangocms_bootstrap3/container_row.html', _('Container Row'))
+               )
+
 }
 
 

@@ -1,8 +1,6 @@
 {% load cms_tags %}
-<div class="container{% if grid.custom_classes %} {{ grid.custom_classes }}{% endif %}">
-    <div class="row">
+<div class="container-fluid{% if grid.custom_classes %} {{ grid.custom_classes }}{% endif %}">
     {% for plugin in grid.child_plugin_instances %}
         {% with forloop as parentloop %}{% render_plugin plugin %}{% endwith %}
     {% endfor %}
-    </div>
 </div>

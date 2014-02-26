@@ -8,29 +8,39 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Container'
+        db.create_table(u'cmsplugin_container', (
+            (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
+            ('custom_classes', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
+            ('template', self.gf('django.db.models.fields.CharField')(default='djangocms_bootstrap3/container.html', max_length=100)),
+        ))
+        db.send_create_signal(u'djangocms_bootstrap3', ['Container'])
+
         # Adding model 'Row'
         db.create_table(u'cmsplugin_row', (
             (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
             ('custom_classes', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
-            ('template', self.gf('django.db.models.fields.CharField')(default='djangocms_bootstrap3/row.html', max_length=100)),
         ))
         db.send_create_signal(u'djangocms_bootstrap3', ['Row'])
 
-        # Adding model 'RowColumn'
-        db.create_table(u'cmsplugin_rowcolumn', (
+        # Adding model 'Column'
+        db.create_table(u'cmsplugin_column', (
             (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
             ('size', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('custom_classes', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
         ))
-        db.send_create_signal(u'djangocms_bootstrap3', ['RowColumn'])
+        db.send_create_signal(u'djangocms_bootstrap3', ['Column'])
 
 
     def backwards(self, orm):
+        # Deleting model 'Container'
+        db.delete_table(u'cmsplugin_container')
+
         # Deleting model 'Row'
         db.delete_table(u'cmsplugin_row')
 
-        # Deleting model 'RowColumn'
-        db.delete_table(u'cmsplugin_rowcolumn')
+        # Deleting model 'Column'
+        db.delete_table(u'cmsplugin_column')
 
 
     models = {
@@ -55,17 +65,22 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'slot': ('django.db.models.fields.CharField', [], {'max_length': '50', 'db_index': 'True'})
         },
-        u'djangocms_bootstrap3.row': {
-            'Meta': {'object_name': 'Row', 'db_table': "u'cmsplugin_row'", '_ormbases': ['cms.CMSPlugin']},
-            u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
-            'custom_classes': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
-            'template': ('django.db.models.fields.CharField', [], {'default': "'djangocms_bootstrap3/row.html'", 'max_length': '100'})
-        },
-        u'djangocms_bootstrap3.rowcolumn': {
-            'Meta': {'object_name': 'RowColumn', 'db_table': "u'cmsplugin_rowcolumn'", '_ormbases': ['cms.CMSPlugin']},
+        u'djangocms_bootstrap3.column': {
+            'Meta': {'object_name': 'Column', 'db_table': "u'cmsplugin_column'", '_ormbases': ['cms.CMSPlugin']},
             u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
             'custom_classes': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
             'size': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'djangocms_bootstrap3.container': {
+            'Meta': {'object_name': 'Container', 'db_table': "u'cmsplugin_container'", '_ormbases': ['cms.CMSPlugin']},
+            u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
+            'custom_classes': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
+            'template': ('django.db.models.fields.CharField', [], {'default': "'djangocms_bootstrap3/container.html'", 'max_length': '100'})
+        },
+        u'djangocms_bootstrap3.row': {
+            'Meta': {'object_name': 'Row', 'db_table': "u'cmsplugin_row'", '_ormbases': ['cms.CMSPlugin']},
+            u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
+            'custom_classes': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'})
         }
     }
 

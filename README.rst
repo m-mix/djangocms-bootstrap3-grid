@@ -2,6 +2,10 @@ djangocms-bootstrap3-grid
 ==============
 
 A Grid Plugin for django CMS, that uses a bootstrap 3 grid system.
+Contains:
+container
+row
+column
 
 Installation
 ------------
@@ -18,10 +22,11 @@ Configure your bootstrap grid system (if it need)
 -------------------
 
 DJANGOCMS_BOOTSTRAP3_CONFIG = {'COLUMNS': 12,
-               'ROW_TEMPLATES': (
-                    ('djangocms_bootstrap3/row.html', _('Row')),
-                    ('djangocms_bootstrap3/container_row.html', _('Container Row'))
-               )
+               'CONTAINER_TEMPLATES': (('djangocms_bootstrap3/container.html', _('Container')),
+                                 ('djangocms_bootstrap3/container_fluid.html', _('Container fluid')),
+                                 ),
+               'ROW_TEMPLATE': 'djangocms_bootstrap3/row.html',
+               'COLUMN_TEMPLATE': 'djangocms_bootstrap3/column.html'
 
 }
 

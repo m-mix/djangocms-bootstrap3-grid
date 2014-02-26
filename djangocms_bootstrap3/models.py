@@ -6,8 +6,12 @@ from cms.models import CMSPlugin
 
 
 GRID_CONFIG = {'COLUMNS': 12,
-               'ROW_TEMPLATES': (('djangocms_bootstrap3/row.html', _('Row')),
-                                 ('djangocms_bootstrap3/container_row.html', _('Container Row')),)
+               'CONTAINER_TEMPLATES': (('djangocms_bootstrap3/container.html', _('Container')),
+                                 ('djangocms_bootstrap3/container_fluid.html', _('Container fluid')),
+                                 ),
+               'ROW_TEMPLATE': 'djangocms_bootstrap3/row.html',
+               'COLUMN_TEMPLATE': 'djangocms_bootstrap3/column.html'
+
 }
 
 GRID_CONFIG.update(getattr(settings, 'DJANGOCMS_BOOTSTRAP3_CONFIG', {}))
@@ -27,18 +31,26 @@ DJANGOCMS_GRID_SM_CHOICES = [('',_('Default'))] + [('col-sm-%s' % i, '%s' % i) f
 DJANGOCMS_GRID_XS_CHOICES = [('',_('Default'))] + [('col-xs-%s' % i, '%s' % i) for i in range(1, GRID_CONFIG['COLUMNS']+1)]
 
 
+class Container(CMSPlugin):
+    custom_classes = models.CharField(_('custom classes'), max_length=200, blank=True)
+    template = models.CharField(_('Container template'), choices=GRID_CONFIG['CONTAINER_TEMPLATES'],
+                                default=GRID_CONFIG['CONTAINER_TEMPLATES'][0][0], max_length=100)
+
+    translatable_content_excluded_fields = ['custom_classes']
+
+    def __unicode__(self):
+        return _(u"Container")
+
+
 class Row(CMSPlugin):
     custom_classes = models.CharField(_('custom classes'), max_length=200, blank=True)
-    template = models.CharField(_('Row template'), choices=GRID_CONFIG['ROW_TEMPLATES'],
-                                default=GRID_CONFIG['ROW_TEMPLATES'][0][0], max_length=100)
-
     translatable_content_excluded_fields = ['custom_classes']
 
     def __unicode__(self):
         return _(u"Row")
 
 
-class RowColumn(CMSPlugin):
+class Column(CMSPlugin):
     size = models.CharField(_('size'), max_length=100)
     custom_classes = models.CharField(_('custom classes'), max_length=200, blank=True)
     translatable_content_excluded_fields = ['custom_classes']

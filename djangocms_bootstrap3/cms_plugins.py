@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 from cms.plugin_pool import plugin_pool
 from cms.plugin_base import CMSPluginBase
-from .models import Row, RowColumn, GRID_CONFIG
+from .models import Container, Row, Column, GRID_CONFIG
 from django.utils.translation import ugettext_lazy as _
-from .forms import RowColumnPluginForm
+from .forms import ColumnPluginForm
 
 
-class RowPlugin(CMSPluginBase):
-    model = Row
-    name = _('Grid row')
+class ContainerPlugin(CMSPluginBase):
+    model = Container
+    name = _('Grid Container')
     module = _('Grid')
-    render_template = GRID_CONFIG['ROW_TEMPLATES'][0][0]
+    render_template = GRID_CONFIG['CONTAINER_TEMPLATES'][0][0]
     allow_children = True
-    child_classes = ['RowColumnPlugin']
 
     def render(self, context, instance, placeholder):
 
@@ -26,13 +25,30 @@ class RowPlugin(CMSPluginBase):
         return context
 
 
-class RowColumnPlugin(CMSPluginBase):
-    model = RowColumn
+class RowPlugin(CMSPluginBase):
+    model = Row
+    name = _('Grid row')
+    module = _('Grid')
+    render_template = GRID_CONFIG['ROW_TEMPLATE']
+    allow_children = True
+    child_classes = ['ColumnPlugin']
+
+    def render(self, context, instance, placeholder):
+
+        context.update({
+            'grid': instance,
+            'placeholder': placeholder,
+        })
+        return context
+
+
+class ColumnPlugin(CMSPluginBase):
+    model = Column
     name = _('Grid Column')
     module = _('Grid')
-    render_template = 'djangocms_bootstrap3/column.html'
+    render_template = GRID_CONFIG['COLUMN_TEMPLATE']
     allow_children = True
-    form = RowColumnPluginForm
+    form = ColumnPluginForm
 
     def save_model(self, request, obj, form, change):
         res = []
@@ -51,7 +67,7 @@ class RowColumnPlugin(CMSPluginBase):
             res.append(size_xs)
 
         obj.size = ' '.join(res)
-        response = super(RowColumnPlugin, self).save_model(request, obj, form, change)
+        response = super(ColumnPlugin, self).save_model(request, obj, form, change)
         return response
 
     def render(self, context, instance, placeholder):
@@ -61,5 +77,7 @@ class RowColumnPlugin(CMSPluginBase):
         })
         return context
 
+
+plugin_pool.register_plugin(ContainerPlugin)
 plugin_pool.register_plugin(RowPlugin)
-plugin_pool.register_plugin(RowColumnPlugin)
+plugin_pool.register_plugin(ColumnPlugin)

@@ -39,6 +39,9 @@ class Container(CMSPlugin):
     translatable_content_excluded_fields = ['custom_classes']
 
     def __unicode__(self):
+        if self.custom_classes:
+            return u"%s" % self.custom_classes
+
         return _(u"Container")
 
 
@@ -47,6 +50,8 @@ class Row(CMSPlugin):
     translatable_content_excluded_fields = ['custom_classes']
 
     def __unicode__(self):
+        if self.custom_classes:
+            return u"%s" % self.custom_classes
         return _(u"Row")
 
 
@@ -56,4 +61,7 @@ class Column(CMSPlugin):
     translatable_content_excluded_fields = ['custom_classes']
 
     def __unicode__(self):
+        if self.custom_classes:
+            return u"%s %s" % (self.size, self.custom_classes)
+
         return u"%s" % self.size
